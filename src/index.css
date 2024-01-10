@@ -15,12 +15,30 @@ body {
   font-size: 2rem;
   height: 100vh;
   color: #222;
-  background-color: #eabfb9;
+  background: linear-gradient(90deg, hsla(210, 50%, 80%, 1) 0%, hsla(212, 93%, 49%, 1) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999;
 }
+.background-animation{
+  display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    height: 30rem;
+    /* height:100vh; */
 
+   
+  z-index: -1;
+}
+.background-animation img{
+  height: 400px;
+  width: 600px;
+  background: none;
+
+}
 .app {
   display: flex;
   flex-direction: column;
@@ -31,6 +49,7 @@ body {
   border: 2px solid #222;
   outline: 2px solid #222;
   outline-offset: 1.2rem;
+  /* background-color: white; */
 }
 
 h1 {
@@ -49,7 +68,7 @@ input {
   font-family: inherit;
   color: inherit;
   font-size: 2rem;
-  background-color: #f0d2ce;
+  background-color: white;
   padding: 1.6rem 3.2rem;
   border: none;
   width: 32rem;
@@ -66,7 +85,7 @@ input:focus {
 }
 
 .day {
-  background-color: #f0d2ce;
+  background-color: #f0feff;
   padding: 1.6rem 0 2rem;
   width: 12.8rem;
 
@@ -82,7 +101,7 @@ input:focus {
 }
 
 .day.important {
-  background-color: #ecc5c0;
+  background-color: #f0feff;
   outline: 2px solid #222;
 }
 

@@ -1,23 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Weather from './Weather';
+import BackgroundAnimation from './BackgroundAnimation';
+import Background from './Background';
 
-/**function to get weather icons */
-function getWeatherIcon(wmoCode){
-  const icons = new Map([
-    [[0], "☀️"],
-    [[1], "🌤"],
-    [[2], "⛅️"],
-    [[3], "☁️"],
-    [[45, 48], "🌫"],
-    [[51, 56, 61, 66, 80], "🌦"],
-    [[53, 55, 63, 65, 57, 67, 81, 82], "🌧"],
-    [[71, 73, 75, 77, 85, 86], "🌨"],
-    [[95], "🌩"],
-    [[96, 99], "⛈"],
-  ]);
-  const arr = [...icons.keys()].find((key)=>key.includes(wmoCode));
-  if(!arr) return "NOT FOUND";
-  return icons.get(arr);
-}
 
 /**Function to convert country code to flag */
 function convertToFlag(countryCode) {
@@ -25,25 +10,23 @@ function convertToFlag(countryCode) {
   return String.fromCodePoint(...codePoints);
 }
 
-/**Function to format date to String */
-function formatDay(dateStr){
-  return new Intl.DateTimeFormat(
-    "en",{
-      weekDay:"short"
-    }    
-  ).format(new Date(dateStr));
-}
-
 function App() {
   const [location, setLocation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isBackground, setIsBackground] = useState(true);
   const [displayLocation, setDisplayLocation] = useState("");
-  const [weather, setWeather] = useState({});
+  const [weather, setWeather] = useState({
+    time: "",
+    weathercode: "",
+    temperature_2m_max: "",
+    temperature_2m_min: "",
+  });
   const onChangeHandler = (e) => {
     setLocation(e.target.value);
   };
 
   async function fetchWeather() {
+    if (location.length < 2) return setWeather({});
     try {
       //getting the location
       setIsLoading(true);
@@ -69,14 +52,23 @@ function App() {
     }
   }
 
+  useEffect(()=>{
+    fetchWeather();
+    // localStorage.setItem("location",location);
+    
+  },[location])
+
   return (
+    <>
+    {isBackground && <Background />}
     <div className="app">
       <h1>Classy Weather</h1>
       <input type="text" placeholder="Search From Location" value={location} onChange={onChangeHandler} />
-      <p>{displayLocation}</p>
-      <button onClick={fetchWeather}>Get Weather</button>
+      {/* <button onClick={fetchWeather}>Get Weather</button> */}
       {isLoading && <p className='loader'>Loading...</p>}
+      {weather.weathercode && <Weather weather={weather} location={displayLocation}/>}
     </div>
+    </>
   );
 }
 
